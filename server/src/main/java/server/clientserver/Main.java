@@ -9,11 +9,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Server in ascolto");
         ServerSocket sS0 = new ServerSocket(3000); //Porta dove il server aspetta richiesta
-        Random rand = new Random();
-        int numero = rand.nextInt(100);
         do {
             Socket s0 = sS0.accept(); //quando arriva una connessione, viene accettata e rende la nuova porta su cui avverra il vero passaggio di dati   
-            gestioneServizio gS = new gestioneServizio(s0, numero);
+            gestioneServizio gS = new gestioneServizio(s0);
             gS.start();
         } while(true);
     }

@@ -10,10 +10,13 @@ public class gestioneServizio extends Thread{
     Socket s0;
     int numero;
     Random rand = new Random();
+    Livelli livelli;
 
-    gestioneServizio(Socket s0, int numero) {
+    gestioneServizio(Socket s0) {
         this.s0 = s0;
-        this.numero = numero;
+        livelli = new Livelli();
+        livelli.creaLivello();
+        numero = livelli.getLivelli().get(0);
     }
 
     @Override
@@ -28,6 +31,7 @@ public class gestioneServizio extends Thread{
             int tentativi = 0;
             boolean indovinato = false;
             String rigioca;
+            int index = 0;
             do {
                 do{
                     System.out.println("numero: " + numero);
@@ -59,8 +63,16 @@ public class gestioneServizio extends Thread{
                         }
                 }while(!indovinato);
                 rigioca = in.readLine();
+                System.out.println("in preso");
                 if (rigioca.equals("1")) {
-                    numero = rand.nextInt(100);
+                    indovinato = false;
+                    System.out.println(livelli.getLivelli().size());
+                    if (livelli.getLivelli().size() <= index) {
+                        System.out.println("dentro if");
+                        livelli.creaLivello();
+                    }
+                    numero = livelli.getLivelli().get(index);
+                    index++;
                 }
             } while (rigioca.equals("1"));
 
