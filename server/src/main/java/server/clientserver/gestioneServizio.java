@@ -10,13 +10,13 @@ public class gestioneServizio extends Thread{
     Socket s0;
     int numero;
     Random rand = new Random();
-    Livelli livelli;
+    Dati datiGioco;
 
     gestioneServizio(Socket s0) {
         this.s0 = s0;
-        livelli = new Livelli();
-        livelli.creaLivello();
-        numero = livelli.getLivelli().get(0);
+        datiGioco = new Dati();
+        datiGioco.creaLivello();
+        numero = datiGioco.getLivelli().get(0);
     }
 
     @Override
@@ -66,12 +66,12 @@ public class gestioneServizio extends Thread{
                 System.out.println("in preso");
                 if (rigioca.equals("1")) {
                     indovinato = false;
-                    System.out.println(livelli.getLivelli().size());
-                    if (livelli.getLivelli().size() <= index) {
+                    System.out.println(datiGioco.getLivelli().size());
+                    if (datiGioco.getLivelli().size() <= index) {
                         System.out.println("dentro if");
-                        livelli.creaLivello();
+                        datiGioco.creaLivello();
                     }
-                    numero = livelli.getLivelli().get(index);
+                    numero = datiGioco.getLivelli().get(index);
                     index++;
                 }
             } while (rigioca.equals("1"));

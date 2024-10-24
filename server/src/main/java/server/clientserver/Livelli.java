@@ -4,16 +4,26 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Livelli {
-    private ArrayList<Integer> livelli = new ArrayList<Integer>();
+    private int numero;
+    private ArrayList<Giocatore> classifica;
     Random rand = new Random();
-
-    public void creaLivello(){
-        livelli.add(rand.nextInt(99));
+    
+    
+    public Livelli() {
+        numero = rand.nextInt(99);
+        classifica = new ArrayList<Giocatore>();
     }
 
-    public ArrayList<Integer> getLivelli() {
-        return livelli;
+    public void inserisciInClassifica(){
+        //TODO
     }
 
+    public int getNumero(){
+        return numero;
+    }
+
+    public ArrayList<Giocatore> getClassifica(){
+        return classifica;
+    }
     
 }
