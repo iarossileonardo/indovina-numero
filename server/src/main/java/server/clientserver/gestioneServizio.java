@@ -16,7 +16,7 @@ public class gestioneServizio extends Thread{
         this.s0 = s0;
         datiGioco = new Dati();
         datiGioco.creaLivello();
-        numero = datiGioco.getLivelli().get(0);
+        numero = datiGioco.getLivelli().get(0).getNumero();
     }
 
     @Override
@@ -31,7 +31,7 @@ public class gestioneServizio extends Thread{
             int tentativi = 0;
             boolean indovinato = false;
             String rigioca;
-            int index = 0;
+            int index = 1;
             do {
                 do{
                     System.out.println("numero: " + numero);
@@ -63,15 +63,12 @@ public class gestioneServizio extends Thread{
                         }
                 }while(!indovinato);
                 rigioca = in.readLine();
-                System.out.println("in preso");
                 if (rigioca.equals("1")) {
                     indovinato = false;
-                    System.out.println(datiGioco.getLivelli().size());
                     if (datiGioco.getLivelli().size() <= index) {
-                        System.out.println("dentro if");
                         datiGioco.creaLivello();
                     }
-                    numero = datiGioco.getLivelli().get(index);
+                    numero = datiGioco.getLivelli().get(index).getNumero();
                     index++;
                 }
             } while (rigioca.equals("1"));
