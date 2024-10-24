@@ -12,11 +12,10 @@ public class gestioneServizio extends Thread{
     Random rand = new Random();
     Dati datiGioco;
 
-    gestioneServizio(Socket s0) {
+    gestioneServizio(Socket s0, Dati datiCondivisi) {
         this.s0 = s0;
-        datiGioco = new Dati();
+        datiGioco = datiCondivisi;
         datiGioco.creaLivello();
-        numero = datiGioco.getLivelli().get(0).getNumero();
     }
 
     @Override
@@ -31,10 +30,11 @@ public class gestioneServizio extends Thread{
             int tentativi = 0;
             boolean indovinato = false;
             String rigioca;
-            int index = 1;
+            int index = 0;
+            numero = datiGioco.getLivelli().get(0).getNumero();
             do {
                 do{
-                    System.out.println("numero: " + numero);
+                    System.out.println("numero: " + numero + ", index: " + index);
                     tentativi++;
                     dati = in.readLine();
                     guess  = Integer.parseInt(dati);
@@ -58,16 +58,49 @@ public class gestioneServizio extends Thread{
                             out.writeBytes("=\n");
                             this.sleep(500);
                             out.writeBytes("" + tentativi + "\n");
-                            tentativi = 0;
                             indovinato = true;
                         }
-                }while(!indovinato);
-                rigioca = in.readLine();
-                if (rigioca.equals("1")) {
-                    indovinato = false;
-                    if (datiGioco.getLivelli().size() <= index) {
-                        datiGioco.creaLivello();
+                    }while(!indovinato);
+                    boolean flag = true;
+                    String nome;
+                    do {
+                        nome = in.readLine();
+
+                        flag = true;
+
+                        for (int i = 0; i < datiGioco.getLivelli().get(index).getClassifica().size(); i++) {
+                            if (datiGioco.getLivelli().get(index).getClassifica().get(i).getNome().equals(nome)) {
+                                out.writeBytes("400" + "\n");
+                                flag = false;
+                                break;
+                            }
+                        }
+
+                        if (flag) {
+                            out.writeBytes("200" + "\n");
+                        }
+
+                        
+                    } while (!flag);
+                    
+                    datiGioco.getLivelli().get(index).inserisciInClassifica(nome, tentativi);
+
+                    sleep(100);
+
+                    for(int i = 0; i < datiGioco.getLivelli().get(index).getClassifica().size(); i++){
+                        if (datiGioco.getLivelli().get(index).getClassifica().get(i).getNome().equals(nome)) {
+                            out.writeBytes("" + (i + 1) + "\n");
+                        }
                     }
+                    
+                    rigioca = in.readLine();
+                    if (rigioca.equals("1")) {
+                        indovinato = false;
+                        tentativi = 0;
+                        if ((datiGioco.getLivelli().size() <= index) || (index == 0)) {
+                            System.out.println("creo livello");
+                            datiGioco.creaLivello();
+                        }
                     numero = datiGioco.getLivelli().get(index).getNumero();
                     index++;
                 }

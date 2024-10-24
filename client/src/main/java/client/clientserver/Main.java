@@ -46,6 +46,18 @@ public class Main {
 
             } while (!sM.equals("=")); //se scrivo "=" esco dal ciclo e si chiude il client
 
+            String presente = "400";
+
+            do {
+                System.out.println("Inserisci il tuo nome:\n");
+                String nome = input.nextLine();
+                out.writeBytes(nome + "\n");
+                presente = in.readLine();
+            } while (presente.equals("400"));
+
+            String posizione = in.readLine();
+            System.out.println("Sei in " + posizione + " posizione");
+
             System.out.println("Vuoi giocare? (s/n)\n");
             String ris = input.nextLine();
             if (ris.equals("s")) {

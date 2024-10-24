@@ -1,6 +1,8 @@
 package server.clientserver;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Livelli {
@@ -14,9 +16,21 @@ public class Livelli {
         classifica = new ArrayList<Giocatore>();
     }
 
-    public void inserisciInClassifica(){
-        //TODO
+    public void inserisciInClassifica(String nome, int tentativi){
+        Giocatore nGio = new Giocatore(nome, tentativi);
+        getClassifica().add(nGio);
+        ordinaClassificaPerTentativi();
     }
+
+    public void ordinaClassificaPerTentativi() {
+        Collections.sort(classifica, new Comparator<Giocatore>() {
+            @Override
+            public int compare(Giocatore g1, Giocatore g2) {
+                return Integer.compare(g1.getTentativi(), g2.getTentativi());
+            }
+        });
+    }
+
 
     public int getNumero(){
         return numero;
